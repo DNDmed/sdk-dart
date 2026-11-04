@@ -1,0 +1,11 @@
+name: dnd_sdk
+description: Client for the Diagnostics At Home public API.
+version: 1.0.0
+publish_to: none
+
+environment:
+  sdk: ">=3.0.0 <4.0.0"
+
+dependencies:
+  cross_file: ^0.3.4
+  http: ^1.2.0
