@@ -18,23 +18,46 @@ Then run `dart pub get` or `flutter pub get`.
 
 ## Usage
 
+Create an API key in the web app under Settings and pass it to `accessToken`. The key is shown once when created. Revoking it in the web app stops it working immediately.
+
 ```dart
 import 'package:cross_file/cross_file.dart';
 import 'package:dnd_sdk/dnd_sdk.dart';
 
-Future<void> example(String apiKey) async {
+Future<void> main() async {
+  const apiKey = String.fromEnvironment('DND_API_KEY');
   final client = DndClient(accessToken: () => apiKey);
 
   try {
-    final patients = await client.patients.getPatientList();
-    final exams = await client.exams.getExamList(patients.first.id!);
-    final point = exams.first.data!.first;
+    // 1. Pick an exam type that records audio.
+    final provision = await client.provisionDetails.getProvision();
+    final examType = provision.examTypes!.firstWhere((type) => type.mediaType == MediaType.AUDIO);
 
+    // 2. Create the patient.
+    final patient = await client.patients.addPatient(
+      fullName: 'Test Patient',
+      birthDate: DateTime(1990, 1, 1),
+    );
+
+    // 3. Create an exam for the patient.
+    final exam = await client.exams.addExam(
+      Exam(patientId: patient.id, examTypeId: examType.id),
+    );
+
+    // 4. Add the first point; the response carries the media record to upload into.
+    final point = await client.exams.addExamPointData(
+      ExamPointData(examId: exam.id, pointTypeId: examType.points!.first.id, pointNumber: 1),
+    );
+
+    // 5. Upload the recording.
     await client.mediaFiles.uploadMediaFile(
       mediaId: point.media!.id!,
-      fps: 1.0,
       file: XFile('point1.wav'),
     );
+
+    // 6. Read the exam status.
+    final status = (await client.exams.getExam(exam.id!)).status;
+    print('Exam ${exam.id} for patient ${patient.id} is ${status?.name}');
   } on DndException catch (e) {
     print('API error ${e.statusCode}: ${e.message}');
   } finally {
@@ -42,8 +65,6 @@ Future<void> example(String apiKey) async {
   }
 }
 ```
-
-Create API keys in the web app under Settings. Pass the key to `accessToken`; it is sent as `Authorization: Bearer <key>` on every request. A key is shown only once when created. Revoking it in the web app stops it working immediately.
 
 ## Resources
 
