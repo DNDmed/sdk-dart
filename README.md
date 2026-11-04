@@ -18,7 +18,7 @@ Then run `dart pub get` or `flutter pub get`.
 
 ## Usage
 
-Create an API key in the web app under Settings and pass it to `accessToken`. The key is shown once when created. Revoking it in the web app stops it working immediately.
+Register on https://web.mydnd.ru, create an API key under Settings, and pass it to `accessToken`. The key is shown once when created. Revoking it in the web app stops it working immediately.
 
 ```dart
 import 'package:cross_file/cross_file.dart';
