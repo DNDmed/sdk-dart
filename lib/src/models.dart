@@ -2,8 +2,7 @@ typedef Json = Map<String, dynamic>;
 
 Map<String, dynamic> _compact(Map<String, dynamic> json) => json..removeWhere((_, value) => value == null);
 
-List<T>? _list<T>(dynamic json, T Function(Json) fromJson) =>
-    (json as List?)?.map((e) => fromJson(e as Json)).toList();
+List<T>? _list<T>(dynamic json, T Function(Json) fromJson) => (json as List?)?.map((e) => fromJson(e as Json)).toList();
 
 List<T>? _values<T>(dynamic json) => (json as List?)?.cast<T>();
 
@@ -12,8 +11,7 @@ double? _double(dynamic json) => (json as num?)?.toDouble();
 /// The API sends and accepts dates as `yyyy-MM-dd HH:mm:ss` in UTC.
 DateTime? _date(dynamic json) => json == null ? null : DateTime.parse('${(json as String).replaceFirst(' ', 'T')}Z');
 
-String? _dateJson(DateTime? date) =>
-    date?.toUtc().toIso8601String().substring(0, 19).replaceFirst('T', ' ');
+String? _dateJson(DateTime? date) => date?.toUtc().toIso8601String().substring(0, 19).replaceFirst('T', ' ');
 
 DateTime? _day(dynamic json) => json == null ? null : DateTime.parse(json as String);
 
@@ -83,8 +81,21 @@ class Profile {
 }
 
 class ProfileData {
-  ProfileData({this.fullName, this.identityNumber, this.birthDate, this.gender, this.height, this.weight, this.allergy,
-      this.chronic, this.anamnesis, this.comments, this.doctor, this.isConfirmed, this.externalId, this.diagnosis,
+  ProfileData(
+      {this.fullName,
+      this.identityNumber,
+      this.birthDate,
+      this.gender,
+      this.height,
+      this.weight,
+      this.allergy,
+      this.chronic,
+      this.anamnesis,
+      this.comments,
+      this.doctor,
+      this.isConfirmed,
+      this.externalId,
+      this.diagnosis,
       this.quality});
 
   factory ProfileData.fromJson(Json json) => ProfileData(
@@ -141,9 +152,24 @@ class ProfileData {
 }
 
 class Exam {
-  Exam({this.id, this.patientId, this.doctorId, this.examTypeId, this.points, this.remaining, this.newPoints,
-      this.comments, this.status, this.isViewed, this.startDate, this.date, this.started, this.data, this.profile,
-      this.byDoctor, this.owner});
+  Exam(
+      {this.id,
+      this.patientId,
+      this.doctorId,
+      this.examTypeId,
+      this.points,
+      this.remaining,
+      this.newPoints,
+      this.comments,
+      this.status,
+      this.isViewed,
+      this.startDate,
+      this.date,
+      this.started,
+      this.data,
+      this.profile,
+      this.byDoctor,
+      this.owner});
 
   factory Exam.fromJson(Json json) => Exam(
         id: json['id'],
@@ -226,8 +252,17 @@ class ExamComment {
 }
 
 class ExamPointData {
-  ExamPointData({this.id, this.examId, this.pointTypeId, this.pointNumber, this.date, this.started, this.data,
-      this.comments, this.media, this.isViewed});
+  ExamPointData(
+      {this.id,
+      this.examId,
+      this.pointTypeId,
+      this.pointNumber,
+      this.date,
+      this.started,
+      this.data,
+      this.comments,
+      this.media,
+      this.isViewed});
 
   factory ExamPointData.fromJson(Json json) => ExamPointData(
         id: json['id'],
@@ -340,8 +375,21 @@ class ProvisionSettings {
 }
 
 class ExamType {
-  ExamType({this.id, this.title, this.description, this.mediaType, this.dataType, this.multiPoint, this.minPoints,
-      this.duration, this.external, this.settings, this.status, this.points, this.examInfoId, this.info});
+  ExamType(
+      {this.id,
+      this.title,
+      this.description,
+      this.mediaType,
+      this.dataType,
+      this.multiPoint,
+      this.minPoints,
+      this.duration,
+      this.external,
+      this.settings,
+      this.status,
+      this.points,
+      this.examInfoId,
+      this.info});
 
   factory ExamType.fromJson(Json json) => ExamType(
         id: json['id'],
@@ -377,7 +425,14 @@ class ExamType {
 }
 
 class ExamPoint {
-  ExamPoint({this.id, this.title, this.description, this.notes, this.dataType, this.examTypeId, this.pointNumber,
+  ExamPoint(
+      {this.id,
+      this.title,
+      this.description,
+      this.notes,
+      this.dataType,
+      this.examTypeId,
+      this.pointNumber,
       this.assets});
 
   factory ExamPoint.fromJson(Json json) => ExamPoint(
@@ -430,8 +485,16 @@ class ExamInfo {
 }
 
 class ExamInfoPage {
-  ExamInfoPage({this.id, this.examInfoId, this.pageOrder, this.title, this.description, this.optional, this.actionable,
-      this.b2b, this.media});
+  ExamInfoPage(
+      {this.id,
+      this.examInfoId,
+      this.pageOrder,
+      this.title,
+      this.description,
+      this.optional,
+      this.actionable,
+      this.b2b,
+      this.media});
 
   factory ExamInfoPage.fromJson(Json json) => ExamInfoPage(
         id: json['id'],
